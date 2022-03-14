@@ -2,8 +2,8 @@ FROM gcc AS build
 WORKDIR /src/
 RUN apt-get update && apt-get install -y flex
 COPY ./ /src/
-RUN make
+RUN make LDFLAGS=-static
 
-FROM debian:stable-slim as calc
+FROM scratch  as calc
 COPY --from=build /src/calc /usr/bin/calc
 CMD ["/usr/bin/calc"]

@@ -1,3 +1,5 @@
+LDFLAGS=
+
 .PHONY: all clean 
 
 all : calc
@@ -12,7 +14,7 @@ calc.o: lex.yy.c pile.h
 	cc -c -o calc.o lex.yy.c
 
 calc: pile.o calc.o
-	cc -o calc calc.o pile.o 
+	cc -o calc ${LDFLAGS} calc.o pile.o 
 
 clean: 
 	rm -f calc *.o lex.yy.c
