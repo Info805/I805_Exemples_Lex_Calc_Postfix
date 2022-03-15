@@ -16,7 +16,7 @@ La [spécification flex](https://westes.github.io/flex/manual/) est dans [calc.l
 ## Construction du projet
 
 Pour construire le projet (nécessite l'installation de préalable flex, make et d'un compilateur c), 
-aller dans le dossier du projet puis éxecuter la commande `make`. 
+aller dans le dossier du projet puis exécuter la commande `make`. 
 
 Flex génère alors, à partir du fichier de spécification [`calc.l`](calc.l), 
 le fichier c `lex.yy.c` qui contient l'automate à états finis déterministe 
