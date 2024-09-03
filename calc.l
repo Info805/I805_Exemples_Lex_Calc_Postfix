@@ -9,7 +9,7 @@ Pile p;
 int op1, op2;
 %}
 
-  /* lex options */
+/* lex options */
 %option noyywrap
 
 /* definitions regulieres */
@@ -20,7 +20,7 @@ espaces [ \t\n\r]+
 
 %%
 
-  /* ------------------------Section des Regles Lexicales----------------------*/
+/* ------------------------Section des Regles Lexicales----------------------*/
 
 "-"       { depiler(&p, &op2); depiler(&p, &op1); empiler(&p, op1 - op2); }
 "+"       { depiler(&p, &op2); depiler(&p, &op1); empiler(&p, op1 + op2); }
@@ -30,7 +30,7 @@ espaces [ \t\n\r]+
 "="       { printf("--> %d\n", sommet(p)); }
 {entier}  { empiler(&p, atoi(yytext)); }
 {espaces} { /* espace rien a faire */ }
-.         {  printf("caractere imprevu : % c, %i \n", yytext[0], yytext[0]); }
+.         { printf("caractere imprevu : % c, %i \n", yytext[0], yytext[0]); }
 
 %%
 /* code c additionnel */
