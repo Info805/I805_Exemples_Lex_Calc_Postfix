@@ -1,49 +1,35 @@
-/* code a ajouter dans les declarations c */
+
 %{
 #include "pile.h"
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-Pile p;
+Pile p = NULL;
 int op1, op2;
+
 %}
 
-  /* lex options */
 %option noyywrap
-
 /* definitions regulieres */
 
 uint    ([1-9][0-9]*)|0
 entier  (\+|-)?{uint}
-espaces [ \t\n\r]+
+espace  [ \t\r\n]
+
+%%
+  /* regles lexicales */
+{entier}    { empiler(&p, atoi(yytext)); }
+"+"         { depiler(&p, &op1); depiler(&p, &op2); empiler(&p, op1 + op2); }
+"*"         { depiler(&p, &op1); depiler(&p, &op2); empiler(&p, op1 * op2); }
+"-"         { depiler(&p, &op1); depiler(&p, &op2); empiler(&p, op2 - op1); }
+"/"         { depiler(&p, &op1); depiler(&p, &op2); empiler(&p, op2 / op1); }
+"n"         { depiler(&p, &op1); empiler(&p, -op1); }
+"="         { printf("--> %d\n", sommet(p)); }
+{espace}    { /* rien */ }
+.           { printf("caractere imprevu : %c, %i\n", yytext[0], yytext[0]); }
 
 %%
 
-  /* ------------------------Section des Regles Lexicales----------------------*/
-
-"-"       { depiler(&p, &op2); depiler(&p, &op1); empiler(&p, op1 - op2); }
-"+"       { depiler(&p, &op2); depiler(&p, &op1); empiler(&p, op1 + op2); }
-"*"       { depiler(&p, &op2); depiler(&p, &op1); empiler(&p, op1 * op2); }
-"/"       { depiler(&p, &op2); depiler(&p, &op1); empiler(&p, op1 / op2); }
-"n"       { depiler(&p, &op1); empiler(&p, -op1 ); }
-"="       { printf("--> %d\n", sommet(p)); }
-{entier}  { empiler(&p, atoi(yytext)); }
-{espaces} { /* espace rien a faire */ }
-.         {  printf("caractere imprevu : % c, %i \n", yytext[0], yytext[0]); }
-
-%%
-/* code c additionnel */
-
-int main (int argc, char* argv[]){
-    if (argc > 1){
-        yyin = fopen(argv[1], "r");
-    } else {
-        yyin = stdin;
-    }
+void main() {
     yylex();
-    printf("pile: ");
-    print_pile(p);
-    printf("\n");
-    return EXIT_SUCCESS;
 }
